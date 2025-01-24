@@ -4,18 +4,16 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
-
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const client = createClient({
-  projectId: "ceq8w7at",
-  dataset: "production",
-  token: "skhH6mLOjSjIBstpoXRCx4lot6EKkMZ8acpBFOW1LyTQYg4cZn2NwwY3Ma6hbNhuJ71oK1jP1sVHHaoHZsh5x1Gfl3a84qcO36rUijfdf2MMGyW8dspvXihdKYllNxcV2fHbgniJOoyZqiR21ony0HmmmcpZkW8hKoOYFQeWuASDeHPzpmPg",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  token: process.env.SANITY_API_TOKEN,
   apiVersion: '2025-01-15',
-  useCdn: true
+  useCdn: false,
 });
 
 async function uploadImageToSanity(imageUrl) {
