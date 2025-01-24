@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
-import { 
-  MagnifyingGlassIcon, 
-  ShoppingCartIcon, 
-  HeartIcon, 
-  Bars3Icon, 
-  XMarkIcon 
+import {
+  MagnifyingGlassIcon,
+  ShoppingCartIcon,
+  HeartIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import TopBar from "./TopBar";
 
@@ -45,7 +45,10 @@ function Header() {
           <div className="hidden sm:flex items-center gap-x-8">
             <ul className="flex gap-x-8 items-center">
               <li>
-                <Link className="hover:text-[#FB2E86] transition-colors" href="/">
+                <Link
+                  className="hover:text-[#FB2E86] transition-colors"
+                  href="/"
+                >
                   Home
                 </Link>
               </li>
@@ -86,18 +89,31 @@ function Header() {
                 )}
               </li>
               <li>
-                <Link className="hover:text-[#FB2E86] transition-colors" href="/blog">
+              <Link href="/ProductListing" className="hover:text-[#FB2E86] transition-colors">
+              Products</Link>
+              </li>
+              <li>
+                <Link
+                  className="hover:text-[#FB2E86] transition-colors"
+                  href="/blog"
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-[#FB2E86] transition-colors" href="/shoplist">
+                <Link
+                  className="hover:text-[#FB2E86] transition-colors"
+                  href="/shoplist"
+                >
                   Shop
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-[#FB2E86] transition-colors" href="/contact-us">
-                Contact
+                <Link
+                  className="hover:text-[#FB2E86] transition-colors"
+                  href="/contact-us"
+                >
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -105,11 +121,17 @@ function Header() {
 
           {/* Right Section: Icons */}
           <div className="hidden sm:flex items-center gap-x-6">
-            <Link href="/cart" className="hover:text-[#FB2E86] transition-colors flex items-center gap-1">
+            <Link
+              href="/cart"
+              className="hover:text-[#FB2E86] transition-colors flex items-center gap-1"
+            >
               <ShoppingCartIcon className="w-5 h-5" />
               <span>Cart</span>
             </Link>
-            <Link href="/wishlist" className="hover:text-[#FB2E86] transition-colors flex items-center gap-1">
+            <Link
+              href="/wishlist"
+              className="hover:text-[#FB2E86] transition-colors flex items-center gap-1"
+            >
               <HeartIcon className="w-5 h-5" />
               <span>Wishlist</span>
             </Link>
@@ -145,11 +167,11 @@ function Header() {
                 <Link href="/cart">Cart</Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/checkout">Billing Details</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/ordercompleted">Order Completed</Link>
-                    </li>
+                <Link href="/checkout">Billing Details</Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-100">
+                <Link href="/ordercompleted">Order Completed</Link>
+              </li>
               <li className="px-4 py-2 hover:bg-gray-100">
                 <Link href="/about">About Us</Link>
               </li>
@@ -157,14 +179,14 @@ function Header() {
                 <Link href="/contact-us">Contact Us</Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/account">My Account</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/forgetpassword">Forget Password</Link>
-                    </li>
-                    <li className="px-4 py-2 hover:bg-gray-100">
-                      <Link href="/creatorpage">About Creator</Link>
-                    </li>
+                <Link href="/account">My Account</Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-100">
+                <Link href="/forgetpassword">Forget Password</Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-100">
+                <Link href="/creatorpage">About Creator</Link>
+              </li>
               <li className="px-4 py-2 hover:bg-gray-100">
                 <Link href="/faq">FAQ</Link>
               </li>
@@ -179,12 +201,18 @@ function Header() {
               </Link>
             </li>
             <li>
+            <Link href="/ProductListing" className="block py-2 hover:text-[#FB2E86]">Products</Link>
+            </li>
+            <li>
               <Link className="block py-2 hover:text-[#FB2E86]" href="/blog">
                 Blog
               </Link>
             </li>
             <li>
-              <Link className="block py-2 hover:text-[#FB2E86]" href="/shoplist">
+              <Link
+                className="block py-2 hover:text-[#FB2E86]"
+                href="/shoplist"
+              >
                 Shop
               </Link>
             </li>
@@ -208,14 +236,21 @@ function Header() {
           </div>
 
           {/* Mobile Cart and Wishlist */}
-          <div className="flex justify-around px-4 py-2 border-t">
-            <Link href="/cart" className="flex items-center gap-1 text-sm hover:text-[#FB2E86]">
-              <ShoppingCartIcon className="w-5 h-5" />
-              <span>Cart</span>
-            </Link>
-            <Link href="#" className="flex items-center gap-1 text-sm hover:text-[#FB2E86]">
+          <div className="relative flex justify-around px-4 py-2 border-t">
+            <Link
+              href="/wishlist"
+              className="flex items-center gap-1 text-sm hover:text-[#FB2E86]"
+            >
               <HeartIcon className="w-5 h-5" />
               <span>Wishlist</span>
+            </Link>
+
+            <Link
+              href="/cart"
+              className=" flex items-center gap-1 text-sm hover:text-[#FB2E86]"
+            >
+              <ShoppingCartIcon className="w-5 h-5" />
+              <span>Cart</span>
             </Link>
           </div>
         </div>

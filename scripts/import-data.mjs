@@ -6,7 +6,8 @@ import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -40,6 +41,11 @@ async function importData() {
     const response = await axios.get("https://next-ecommerce-template-4.vercel.app/api/product")
     const products = response.data.products;
 
+    if (!Array.isArray(products)) {
+      console.error('Products are not in an array format or are undefined');
+      return;
+    }
+
     for (const item of products) {
       console.log(`Processing Item: ${item.name}`);
 
@@ -71,13 +77,11 @@ async function importData() {
       console.log(`Uploading ${sanityItem.category} - ${sanityItem.name} to Sanity !`);
       const result = await client.create(sanityItem);
       console.log(`Uploaded Successfully: ${result._id}`);
-      console.log("----------------------------------------------------------")
-      console.log("\n\n")
     }
 
     console.log('Data Import Completed Successfully !');
   } catch (error) {
-    console.error('Error Importing Data : ', error);
+    console.error('Error Importing Data:', error);
   }
 }
 
