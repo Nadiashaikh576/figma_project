@@ -89,8 +89,9 @@ function Header() {
                 )}
               </li>
               <li>
-              <Link href="/ProductListing" className="hover:text-[#FB2E86] transition-colors">
+              <Link href="/products" className="hover:text-[#FB2E86] transition-colors">
               Products</Link>
+              
               </li>
               <li>
                 <Link
@@ -201,7 +202,7 @@ function Header() {
               </Link>
             </li>
             <li>
-            <Link href="/ProductListing" className="block py-2 hover:text-[#FB2E86]">Products</Link>
+            <Link href="/products" className="block py-2 hover:text-[#FB2E86]">Products</Link>
             </li>
             <li>
               <Link className="block py-2 hover:text-[#FB2E86]" href="/blog">

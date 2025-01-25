@@ -12,8 +12,6 @@ import TrendingProducts from "../components/TrendingProducts";
 import Discount from "../components/Discount";
 import BlogSection from "../components/BlogSection";
 import Newslater from "../components/Newslater";
-import ProductCards from "../components/ProductDetails";
-
 
 function Homepage(){
   return(
@@ -30,7 +28,6 @@ function Homepage(){
       <Newslater />
       <BlogSection />
       <Footer />
-      <ProductCards />
     </div>
   )
 }
