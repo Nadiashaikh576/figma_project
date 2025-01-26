@@ -7,7 +7,7 @@ export default {
         name: 'name',
         type: 'string',
         title: 'Name',
-        validation: (Rule: any) => Rule.required().error('Name is required'),
+        // validation: (Rule: any) => Rule.required().error('Name is required'),
       },
       {
         name: "slug",
@@ -30,21 +30,21 @@ export default {
         name: 'price',
         type: 'string',
         title: 'Price',
-        validation: (Rule: any) => Rule.required().error('Price is required'),
+        // validation: (Rule: any) => Rule.required().error('Price is required'),
       },
       {
         name: 'description',
         type: 'text',
         title: 'Description',
-        validation: (Rule: any) =>
-          Rule.max(150).warning('Keep the description under 150 characters.'),
+        // validation: (Rule: any) =>
+          // Rule.max(150).warning('Keep the description under 150 characters.'),
       },
       {
         name: 'discountPercentage',
         type: 'number',
         title: 'Discount Percentage',
-        validation: (Rule: any) =>
-          Rule.min(0).max(100).warning('Discount must be between 0 and 100.'),
+        // validation: (Rule: any) =>
+          // Rule.min(0).max(100).warning('Discount must be between 0 and 100.'),
       },
       {
         name: 'isFeaturedProduct',
@@ -55,7 +55,7 @@ export default {
         name: 'stockLevel',
         type: 'number',
         title: 'Stock Level',
-        validation: (Rule: any) => Rule.min(0).error('Stock level must be a positive number.'),
+        // validation: (Rule: any) => Rule.min(0).error('Stock level must be a positive number.'),
       },
       {
         name: 'category',
@@ -67,7 +67,7 @@ export default {
             { title: 'Sofa', value: 'Sofa' },
           ],
         },
-        validation: (Rule: any) => Rule.required().error('Category is required'),
+        // validation: (Rule: any) => Rule.required().error('Category is required'),
       },
     ],
   };

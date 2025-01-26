@@ -23,7 +23,7 @@ function Discount() {
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 ml-10 items-center">
           {/* Left Side - Text Section */}
           <div className="text-center md:text-left">
             <h3 className="text-[#3F509E] text-3xl font-bold mb-4">20% Discount Of All Products</h3>

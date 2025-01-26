@@ -7,7 +7,7 @@ function BlogSection() {
     {
       id: 1,
       img: "/images/sofa4.png",
-      author: "Saber Ali",
+      author: "John Smith",
       date: "21 August, 2020",
       title: "Top Essential Trends in 2020",
       description: "More off this less hello samlande lied much over tightly circa horse taped mightly.",
@@ -25,7 +25,7 @@ function BlogSection() {
     {
       id: 3,
       img: "/images/sofa6.png",
-      author: "Saber Ali",
+      author: "Nadia",
       date: "21 August, 2020",
       title: "Top Essential Trends in 2020",
       description: "More off this less hello samlande lied much over tightly circa horse taped mightly.",
@@ -43,7 +43,7 @@ function BlogSection() {
         {blogs.map((blog) => (
           <div key={blog.id} className="flex flex-col items-start">
             {/* Blog Image */}
-            <div className="w-full h-[300px] relative rounded-lg shadow-md bg-white p-2">
+            <div className="w-full h-[300px] relative rounded-lg shadow-md bg-white">
               <Image
                 src={blog.img}
                 alt={blog.title}
