@@ -1,0 +1,12 @@
+Test Case ID,Test Steps,Description,Expected Result,Actual Result,Status,Severity Level,Remarks
+TC001,Validate homepage layout,"Open homepage > Verify logo, banners, and menu",Homepage elements displayed correctly,All elements displayed correctly,Passed,Medium,No issues found
+TC002,Check product page details,Open product page > Verify product details,"Product name, price, and description are visible",Product details displayed correctly,Passed,High,Test passed successfully
+TC003,Test add to cart functionality,Select product > Add to cart > Open cart page,Product is added to cart and visible in cart,Product added and cart updated correctly,Passed,High,Works as expected
+TC004,Validate checkout process,Add items to cart > Proceed to checkout,Checkout page loads with correct items and price,Checkout page loaded correctly,Passed,High,"No issues, smooth flow"
+TC005,Ensure mobile responsiveness,Resize browser > Open homepage and products page,Layout adjusts for mobile screen size,Mobile layout responsive and correctly adjusted,Passed,Medium,Mobile view working well
+TC006,Verify user login functionality,Go to login page > Enter valid credentials,User successfully logs in,Login successful,Passed,High,Login working fine
+TC007,Test product search functionality,Enter product name in search bar,Relevant product search results displayed,Search results displayed as expected,Passed,Medium,No issues found
+,,,,,,,
+,,,,,,,
+,,,,,"
+",,

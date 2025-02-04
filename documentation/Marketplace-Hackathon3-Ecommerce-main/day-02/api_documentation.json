@@ -1,0 +1,48 @@
+{
+    "id": 1,
+    "name": "Product A",
+    "price": 100,
+    "stock": 20,
+    "image": "url_to_image"
+  }
+
+
+{
+    "customerInfo": {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "address": "123 Main St"
+    },
+    "productDetails": [
+      {
+        "productId": 1,
+        "quantity": 2
+      }
+    ],
+    "paymentStatus": "Paid"
+  }
+  
+
+  {
+    "orderId": 123,
+    "status": "Success"
+  }
+
+  {
+    "shipmentId": "SHIP123",
+    "orderId": 123,
+    "status": "In Transit",
+    "expectedDeliveryDate": "2025-01-16"
+  }
+  
+  
+  export default { 
+  name: 'product', 
+  type: 'document', 
+  fields: [ 
+    { name: 'name', type: 'string', title: 'Product Name' }, 
+    { name: 'price', type: 'number', title: 'Price' }, 
+    { name: 'stock', type: 'number', title: 'Stock Level' }, 
+    { name: 'description', type: 'text', title: 'Description' } 
+  ] 
+};
