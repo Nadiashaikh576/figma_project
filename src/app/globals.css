@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /* globals.css */
 .container {
     display: flex;
@@ -22,5 +23,4 @@
     .container {
       padding: 0.5rem;
     }
-  }
-  
+  } 
