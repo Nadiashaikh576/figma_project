@@ -1,5 +1,5 @@
 export interface Product {
-    productName: ReactI18NextChildren | Iterable<ReactI18NextChildren>;
+    productName: string;
     inventory: number;
     reviews: boolean;
     _id: string;

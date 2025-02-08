@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { getCartItems } from "@/app/actions/actions";
 import Link from "next/link";
@@ -9,7 +9,6 @@ import { urlFor } from "@/sanity/lib/image";
 import { CgChevronRight } from "react-icons/cg";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { form } from "sanity/structure";
 
 
 export default function CheckoutPage() {
@@ -46,7 +45,6 @@ export default function CheckoutPage() {
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.inventory,0
   );
-  const total = Math.max(subtotal - discount, 0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
@@ -78,9 +76,6 @@ export default function CheckoutPage() {
     }
   };
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <div className={`min-h-screen bg-gray-50`}>
