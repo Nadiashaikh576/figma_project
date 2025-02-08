@@ -10,6 +10,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import Swal from "sweetalert2";
 
+
 const CartPage = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
 
@@ -64,7 +65,7 @@ const CartPage = () => {
       0
     );
   };
-
+  
   const handleProceed = () => {
     Swal.fire({
       title: "Processing your order...",
