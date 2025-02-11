@@ -28,7 +28,7 @@ export default {
       },
       {
         name: 'price',
-        type: 'string',
+        type: 'number',
         title: 'Price',
         // validation: (Rule: any) => Rule.required().error('Price is required'),
       },

@@ -9,7 +9,8 @@ import { urlFor } from "@/sanity/lib/image";
 import { CgChevronRight } from "react-icons/cg";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
+import Swal from "sweetalert2";
+import { client } from "@/sanity/lib/client";
 
 export default function CheckoutPage() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
@@ -43,8 +44,11 @@ export default function CheckoutPage() {
   }, []);
 
   const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.inventory,0
+    (total, item) => total + item.price * item.stockLevel,
+    0
   );
+
+  const total = Math.max(subtotal - discount, 0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
@@ -67,19 +71,65 @@ export default function CheckoutPage() {
     return Object.values(errors).every((error) => !error);
   };
 
-  const handlePlaceOrder = () => {
-    if (validateForm()) {
-      localStorage.removeItem("appliedDiscount");
-    //   toast.success("Order placed successfully!");
-    } else {
-    //   toast.error("Please fill in all the fields.");
+  const handlePlaceOrder = async () => {
+
+    Swal.fire({
+      title: "Processing your order...",
+      text: "Please wait a moment.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Proceed",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (validateForm()) {
+          localStorage.removeItem("appliedDiscount");
+          Swal.fire(
+            "Success!",
+            "Your order has been successfully processed!",
+            "success"
+          );
+        } else {
+          Swal.fire(
+            "Error!",
+            "Please fill in all the fields before processing your order!",
+            "error"
+          );
+        }
+      }
+    });
+
+    const orderData = {
+      _type : 'order',
+      firstName : formValues.firstName,
+      lastName : formValues.lastName,
+      address : formValues.address,
+      city : formValues.city,
+      zipCode : formValues.zipCode,
+      phone : formValues.phone,
+      email : formValues.email,
+      discount : discount,
+      cartItems : cartItems.map((item) => ({ 
+        _type : 'reference',
+        _ref : item._id 
+      })),
+      total : total,
+      orderDate : new Date().toISOString
+    };
+
+    try {
+      await client.create(orderData)
+      localStorage.removeItem("appliedDiscount")
+    } catch (error) {
+      console.error("error creating order", error)
     }
   };
 
-
+  
   return (
     <div className={`min-h-screen bg-gray-50`}>
-        <Header />
+      <Header />
       {/* Breadcrumb */}
       <div className="mt-6">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -112,22 +162,27 @@ export default function CheckoutPage() {
                     {item.image && (
                       <Image
                         src={urlFor(item.image).url()}
-                        alt="image"
+                        alt={item.name}
                         width={64}
                         height={64}
                         // className="object-cover w-full h-full"
-                         className="shadow-lg rounded-2xl border border-gray-200"
+                        className="shadow-lg rounded-2xl border border-gray-200"
                       />
                     )}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-medium">{item.productName}</h3>
+                    <h3 className="text-sm font-medium">{item.name}</h3>
                     <p className="text-xs text-gray-500">
-                      Quantity: {item.inventory}
+                      Quantity: {item.stockLevel}
                     </p>
                   </div>
                   <p className="text-sm font-medium">
-                    ${item.price * item.inventory}
+                    {/* ${item.price * item.inventory} */}$
+                    {isNaN(Number(item.price) * Number(item.stockLevel))
+                      ? "0.00"
+                      : (Number(item.price) * Number(item.stockLevel)).toFixed(
+                          2
+                        )}
                   </p>
                 </div>
               ))
@@ -142,7 +197,7 @@ export default function CheckoutPage() {
                 Discount: <span className="font-medium">${discount}</span>
               </p>
               <p className="text-lg font-semibold">
-                Total: ${subtotal.toFixed(2)}
+                Total: ${total.toFixed(2)}
               </p>
             </div>
           </div>
@@ -152,7 +207,13 @@ export default function CheckoutPage() {
             <h2 className="text-xl font-semibold">Billing Information</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700"> First Name </label>
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  {" "}
+                  First Name{" "}
+                </label>
                 <input
                   id="firstName"
                   placeholder="Enter your first name"
@@ -167,97 +228,131 @@ export default function CheckoutPage() {
                 )}
               </div>
               <div>
-                <label htmlFor="lastName"  className="block text-sm font-semibold text-gray-700"> Last Name </label>
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  {" "}
+                  Last Name{" "}
+                </label>
                 <input
                   id="lastName"
                   placeholder="Enter your last name"
                   value={formValues.lastName}
                   onChange={handleInputChange}
-                    className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
+                  className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
                 />
                 {formErrors.lastName && (
-                  <p className="text-sm text-red-500">
-                    Last name is required.
-                  </p>
+                  <p className="text-sm text-red-500">Last name is required.</p>
                 )}
               </div>
             </div>
             <div>
-              <label htmlFor="address"  className="block text-sm font-semibold text-gray-700"> Address </label>
+              <label
+                htmlFor="address"
+                className="block text-sm font-semibold text-gray-700"
+              >
+                {" "}
+                Address{" "}
+              </label>
               <input
                 id="address"
                 placeholder="Enter your address"
                 value={formValues.address}
                 onChange={handleInputChange}
-                  className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
+                className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
               />
               {formErrors.address && (
                 <p className="text-sm text-red-500">Address is required.</p>
               )}
             </div>
             <div>
-              <label htmlFor="city" className="block text-sm font-semibold text-gray-700"> City </label>
+              <label
+                htmlFor="city"
+                className="block text-sm font-semibold text-gray-700"
+              >
+                {" "}
+                City{" "}
+              </label>
               <input
                 id="city"
                 placeholder="Enter your city"
                 value={formValues.city}
                 onChange={handleInputChange}
-                  className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
+                className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
               />
               {formErrors.city && (
                 <p className="text-sm text-red-500">City is required.</p>
               )}
             </div>
             <div>
-              <label htmlFor="zipCode" className="block text-sm font-semibold text-gray-700"> Zip Code </label>
+              <label
+                htmlFor="zipCode"
+                className="block text-sm font-semibold text-gray-700"
+              >
+                {" "}
+                Zip Code{" "}
+              </label>
               <input
                 id="zipCode"
                 placeholder="Enter your zip code"
                 value={formValues.zipCode}
                 onChange={handleInputChange}
-                  className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
+                className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
               />
               {formErrors.zipCode && (
                 <p className="text-sm text-red-500">Zip Code is required.</p>
               )}
             </div>
             <div>
-              <label htmlFor="phone" className="block text-sm font-semibold text-gray-700"> Phone </label>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-semibold text-gray-700"
+              >
+                {" "}
+                Phone{" "}
+              </label>
               <input
                 id="phone"
                 placeholder="Enter your phone number"
                 value={formValues.phone}
                 onChange={handleInputChange}
-                  className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
+                className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
               />
               {formErrors.phone && (
                 <p className="text-sm text-red-500">Phone is required.</p>
               )}
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700"> Email </label>
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-gray-700"
+              >
+                {" "}
+                Email{" "}
+              </label>
               <input
                 id="email"
                 placeholder="Enter your email address"
                 value={formValues.email}
                 onChange={handleInputChange}
-                  className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
+                className="border mt-2 block w-full p-3 rounded-md focus:ring focus:ring-pink-500 focus:outline-none"
               />
               {formErrors.email && (
                 <p className="text-sm text-red-500">Email is required.</p>
               )}
             </div>
             <li>
-            <Link href="/ordercompleted">
-            <button
-              type="submit"
-              // className="w-full h-12 bg-blue-500 hover:bg-blue-700 text-white rounded-md"
-               className="w-full py-3 bg-[#FB2E86] text-white rounded-md font-semibold hover:bg-pink-600"
-              onClick={handlePlaceOrder}
-            >
-              Place Order
-            </button>
-            </Link>
+              <Link href="/ordercompleted">
+                <button
+                  type="submit"
+                  // className="w-full h-12 bg-blue-500 hover:bg-blue-700 text-white rounded-md"
+                  className="w-full py-3 bg-[#FB2E86] text-white rounded-md font-semibold hover:bg-pink-600"
+                  onClick={handlePlaceOrder}
+                >
+                  Place Order
+                </button>
+              </Link>
             </li>
           </div>
         </div>
@@ -265,4 +360,4 @@ export default function CheckoutPage() {
       <Footer />
     </div>
   );
-  }
+}
